@@ -49,12 +49,12 @@ INSERT INTO customers VALUES
   (NULL, 'NBU');
 
 INSERT INTO projects VALUES
-  (NULL, 'Electronic library', 11700, 1, 1),
-  (NULL, 'Museum web-site', 5500, 1, 1),
-  (NULL, 'Online payment system', 15400, 2, 3),
-  (NULL, 'Interbank trading platform', 17200, 2, 3),
-  (NULL, 'Cars navigation system', 8900, 3, 2),
-  (NULL, 'Smart car system', 13000, 3, 2);
+  (NULL, 'Electronic library', 1, 1),
+  (NULL, 'Museum web-site', 1, 1),
+  (NULL, 'Online payment system', 2, 3),
+  (NULL, 'Interbank trading platform', 2, 3),
+  (NULL, 'Cars navigation system', 3, 2),
+  (NULL, 'Smart car system', 3, 2);
 
 INSERT INTO developers_projects VALUES
   (1, 1),

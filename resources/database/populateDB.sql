@@ -51,10 +51,13 @@ INSERT INTO customers (name) VALUES
 INSERT INTO projects (name, company_id, customer_id) VALUES
   ('Electronic library', 1, 1),
   ('Museum web-site', 2, 1),
+  ('Art gallery', 1, 1),
+  ('FX exchange', 2, 3),
   ('Online payment system', 3, 3),
   ('Interbank trading platform', 1, 3),
   ('Cars navigation system', 2, 2),
-  ('Smart car system', 3, 2);
+  ('Smart car system', 3, 2),
+  ('Smart driving', 3, 2);
 
 INSERT INTO developers_projects (developer_id, project_id) VALUES
   (1, 1),

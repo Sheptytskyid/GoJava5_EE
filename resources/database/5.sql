@@ -1,46 +1,21 @@
-SELECT
-  c.company,
-  a.name as customer,
-  c.revenue
-FROM customers a
-  JOIN projects b
-  JOIN (
-         SELECT
-           companies.name     AS company,
-           min(projects.cost) AS revenue
-         FROM projects, companies
-         WHERE projects.company_id = companies.id
-         GROUP BY company_id) c
-    ON (c.revenue = b.cost AND b.customer_id = a.id);
+CREATE TEMPORARY TABLE companies_revenues_by_customers
+  SELECT
+    company_id  AS company,
+    customer_id AS customer,
+    sum(cost)   AS revenue
+  FROM projects
+  GROUP BY company_id, customer_id;
 
-#solution with temporary table
+CREATE TEMPORARY TABLE min_companies_clients
+  SELECT
+    crbc.company,
+    p.customer_id,
+    min(crbc.revenue) as revenue
+  FROM companies_revenues_by_customers crbc LEFT JOIN
+    projects p on crbc.revenue = p.cost
+  GROUP BY company;
 
-#CREATE TEMPORARY TABLE max_companies_projects
-#SELECT
-#companies.name     AS company,
-#min(projects.cost) AS revenue
-#FROM projects, companies
-#WHERE projects.company_id = companies.id
-#GROUP BY company_id;
-
-#SELECT
-#a.company,
-#a.revenue,
-#c.name
-#FROM max_companies_projects a
-#JOIN (projects b, customers c) ON (a.revenue = b.cost AND b.customer_id = c.id);
-
-#DROP TABLE max_companies_projects;
-
-
-#this solution is intended to do the same work as the upper one but it incorrectly matches customers to projects
-#  and I haven't yet found a way to fix it
-
-#SELECT
-#companies.name     AS company,
-#customers.name     AS customer,
-#min(projects.cost) AS revenue
-#FROM projects, companies, customers
-#WHERE projects.company_id = companies.id AND projects.customer_id = customers.id
-#GROUP BY company_id;
-
+select  companies.name, customers.name, min_companies_clients.revenue
+from min_companies_clients
+JOIN companies on min_companies_clients.company = companies.id
+JOIN customers on min_companies_clients.customer_id = customers.id;

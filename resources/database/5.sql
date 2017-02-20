@@ -1,21 +1,18 @@
 CREATE TEMPORARY TABLE companies_revenues_by_customers
   SELECT
-    company_id  AS company,
-    customer_id AS customer,
-    sum(cost)   AS revenue
+    companies.name AS company,
+    customers.name AS customer,
+    sum(cost)      AS revenue
   FROM projects
-  GROUP BY company_id, customer_id;
+    JOIN companies ON projects.company_id = companies.id
+    JOIN customers ON projects.customer_id = customers.id
+  GROUP BY company, customer;
 
-CREATE TEMPORARY TABLE min_companies_clients
-  SELECT
-    crbc.company,
-    p.customer_id,
-    min(crbc.revenue) as revenue
-  FROM companies_revenues_by_customers crbc LEFT JOIN
-    projects p on crbc.revenue = p.cost
-  GROUP BY company;
-
-select  companies.name, customers.name, min_companies_clients.revenue
-from min_companies_clients
-JOIN companies on min_companies_clients.company = companies.id
-JOIN customers on min_companies_clients.customer_id = customers.id;
+SELECT
+  crbc.company,
+  cust.name,
+  min(crbc.revenue) AS revenue
+FROM companies_revenues_by_customers crbc
+  JOIN projects p ON crbc.revenue = p.cost
+  JOIN customers cust ON p.customer_id = cust.id
+GROUP BY company;

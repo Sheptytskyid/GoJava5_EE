@@ -1,8 +1,8 @@
 SELECT
-  a.name,
-  sum(b.salary) AS cost
-FROM projects a, developers b
-WHERE a.company_id = b.company_id
-GROUP BY b.company_id
+  p.name,
+  sum(d.salary) AS cost
+FROM projects p, developers d
+WHERE p.company_id = d.company_id
+GROUP BY d.company_id
 ORDER BY cost DESC
 LIMIT 1;

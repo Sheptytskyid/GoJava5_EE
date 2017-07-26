@@ -1,0 +1,40 @@
+CREATE DATABASE IF NOT EXISTS sql_tutorial;
+
+use sql_tutorial;
+
+CREATE TABLE skills (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) UNIQUE
+);
+
+CREATE TABLE companies (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) UNIQUE NOT NULL
+);
+
+CREATE TABLE customers (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) UNIQUE NOT NULL
+);
+
+CREATE TABLE projects (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name  VARCHAR(20) UNIQUE NOT NULL,
+  company_id INT UNSIGNED,
+  customer_id INT UNSIGNED,
+  FOREIGN KEY (company_id) REFERENCES companies(id),
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+CREATE TABLE developers (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) NOT NULL,
+  project_id INT UNSIGNED
+);
+
+CREATE TABLE developers_skills (
+  developer_id INT UNSIGNED NOT NULL,
+  skill_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (developer_id) REFERENCES developers (id),
+  FOREIGN KEY (skill_id) REFERENCES skills (id)
+);
